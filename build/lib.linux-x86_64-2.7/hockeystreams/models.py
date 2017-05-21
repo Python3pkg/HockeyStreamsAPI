@@ -8,7 +8,7 @@ class hsmodelbase:
 
     def __init__(self, dictionary):
         self.dictionary = dictionary
-        for key in self.dictionary.keys():
+        for key in list(self.dictionary.keys()):
             uscore =  re.sub('(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))', '_\\1', str(key)).lower().strip('_')
             function_name = "get_"+ uscore
             value = dictionary[key]

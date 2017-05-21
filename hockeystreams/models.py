@@ -8,12 +8,12 @@ class hsmodelbase:
 
     def __init__(self, ind):
         self.dictionary = {}
-        for key in ind.keys():
+        for key in list(ind.keys()):
             #https://djangosnippets.org/snippets/585/
             uscore =  re.sub('(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))', '_\\1', str(key)).lower().strip('_')
             self.dictionary[uscore] = ind[key]
 
-        for key in self.dictionary.keys():
+        for key in list(self.dictionary.keys()):
             function_name = "get_"+ key
             value = self.dictionary[key]
             setattr(self.__class__, function_name, self.__gen_func(value))

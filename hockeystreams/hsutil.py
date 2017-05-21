@@ -1,6 +1,6 @@
 __author__ = 'chuck'
 
-import urllib2, json
+import urllib.request, urllib.error, urllib.parse, json
 
 class HSUtil:
 
@@ -18,13 +18,13 @@ class HSUtil:
             try:
                 if type == 'GET':
                     url = "".join([url,params])
-                request = urllib2.Request(url)
+                request = urllib.request.Request(url)
                 request.add_header('content-type', 'application/x-www-form-urlencoded')
                 response = None
                 if type == 'GET':
-                    response = urllib2.urlopen(request)
+                    response = urllib.request.urlopen(request)
                 else:
-                    response = urllib2.urlopen(request, params)
+                    response = urllib.request.urlopen(request, params)
                 page = response.read()
                 code = response.code
                 response.close()
@@ -34,7 +34,7 @@ class HSUtil:
                 self.__error_parse(js)
                 return js
 
-            except urllib2.HTTPError as e:
+            except urllib.error.HTTPError as e:
                 if e.getcode() == 400:
                     self.__error_parse(json.loads(e.read()))
                 else:
@@ -43,7 +43,7 @@ class HSUtil:
         def __error_parse(self, js):
             if type(js) == list:
                 return
-            if js.has_key('status') and str(js['status']) == 'Failed':
+            if 'status' in js and str(js['status']) == 'Failed':
                 raise ValueError(js['msg'])
 
         def __base_url(self):
